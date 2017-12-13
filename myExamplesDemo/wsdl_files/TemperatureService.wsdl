@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<definitions
+   name="TemperatureService"
+   targetNamespace="http://www.xmethods.net/sd/TemperatureService.wsdl"
+   xmlns:tns="http://www.xmethods.net/sd/TemperatureService.wsdl"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns="http://schemas.xmlsoap.org/wsdl/" >
+   <types>
+      <xsd:schema 
+         targetNamespace="http://www.xmethods.net/sd/TemperatureService.wsdl"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+          <xsd:element name="getTempRequest">
+             <xsd:complexType>
+                <xsd:sequence>
+                   <xsd:element name="zip" type="xsd:string"/>
+                </xsd:sequence>
+             </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="getTempResponse">
+             <xsd:complexType>
+                <xsd:sequence>
+                   <xsd:element name="return" type="xsd:float"/>
+                </xsd:sequence>
+             </xsd:complexType>
+          </xsd:element>
+      </xsd:schema>
+   </types>
+   <message name="getTempRequest">
+      <part name="parameters" element="tns:getTempRequest"/>
+   </message>
+   <message name="getTempResponse">
+      <part name="parameters" element="tns:getTempResponse"/>
+   </message>
+   <portType name="TemperaturePortType">
+      <operation name="getTemp">
+         <input message="tns:getTempRequest"/>
+         <output message="tns:getTempResponse"/>
+      </operation>
+   </portType>
+   <binding name="TemperatureBinding" type="tns:TemperaturePortType">
+      <soap:binding style="document" 
+           transport="http://schemas.xmlsoap.org/soap/http"/>
+      <operation name="getTemp">
+          <soap:operation soapAction=""/>
+          <input>
+             <soap:body use="literal"/>
+          </input>
+          <output>
+             <soap:body use="literal"/>
+          </output>
+      </operation>
+   </binding>
+   <service name="TemperatureService">
+      <documentation>
+         Returns current temperature in a given U.S. zipcode
+      </documentation>
+      <port name="TemperaturePort" binding="tns:TemperatureBinding">
+         <soap:address 
+          location="http://localhost:7001/temp/TemperatureService"/>
+      </port>
+   </service>
+</definitions>
