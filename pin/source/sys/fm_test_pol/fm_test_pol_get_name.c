@@ -56,8 +56,6 @@ fm_test_pol_get_name(
 	  
 	  
 	  
-	  
-	  
 	
 /*******************************************************************
  * Main routine for the PCM_OP_TEST_POL_GET_NAME opcode
