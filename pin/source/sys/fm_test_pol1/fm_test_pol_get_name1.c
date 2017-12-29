@@ -18,7 +18,9 @@
 
 
 
-//navneet
+
+
+
 
 #include "pcm.h"
 #include "ops/tcf.h"
@@ -51,10 +53,6 @@ fm_test_pol_get_name(
     pin_flist_t         *in_flistp,
     pin_flist_t         **out_flistpp,
     pin_errbuf_t        *ebufp);
-	
-	
-	
-	
 
 /*******************************************************************
  * Main routine for the PCM_OP_TEST_POL_GET_NAME opcode

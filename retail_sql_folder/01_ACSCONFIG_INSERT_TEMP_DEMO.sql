@@ -6,6 +6,9 @@ COMMIT;
 
 
 
+
+
+
 INSERT INTO TEMP_DEMO (id, city, country)
     VALUES (1, 'Bangalore', 'India');
 
