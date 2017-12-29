@@ -9,4 +9,10 @@ INSERT INTO TEMP_DEMO (id, city, country)
 
 
 
+	
+	
+	
 COMMIT;
+
+
+

@@ -15,9 +15,6 @@
 #include <stdio.h>
 #include <strings.h>
 
-
-
-
 #include <stdlib.h>
 
 #include "pcm.h"
