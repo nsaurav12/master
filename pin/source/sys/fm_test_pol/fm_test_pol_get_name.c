@@ -2,6 +2,8 @@
 /***********************************************************************
  *
  * @(#)fm_test_pol_get_name.c
+
+
  *
  *  Copyright (c) 2000 Portal Software, Inc. All rights reserved.
  *  This material is the confidential property of Portal Software, Inc.
