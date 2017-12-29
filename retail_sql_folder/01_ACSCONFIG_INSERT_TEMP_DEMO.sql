@@ -4,6 +4,8 @@ DELETE FROM TEMP_DEMO
 COMMIT;
 
 
+
+
 INSERT INTO TEMP_DEMO (id, city, country)
     VALUES (1, 'Bangalore', 'India');
 
