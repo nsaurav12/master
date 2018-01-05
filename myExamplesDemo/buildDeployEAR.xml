@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<project basedir="." default="all">
+
+<property name="wls.username" value="weblogic" />
+<property name="wls.password" value="weblogic123" />
+<property name="wls.hostname" value="localhost" />
+<property name="wls.port" value="7001" />
+<property name="admin.server.name" value="AdminServer" />
+<property name="deploy.target" value="AdminServer" />
+<property name="deploy.name" value="tryEar" />
+<property name="deploy.source" value="tryEar.ear" />
+ 
+ 
+ <taskdef name="wldeploy" classname="weblogic.ant.taskdefs.management.WLDeploy">
+<classpath>
+<pathelement location="C:/Oracle/Middleware/Oracle_Home/wlserver/server/lib/weblogic.jar"/>
+</classpath>
+</taskdef>
+     
+	
+	
+	<target name="all" 
+    depends="deploy" />
+	
+<target name="deploy"  >
+<wldeploy action="deploy"
+          name="${deploy.name}"
+          source="${deploy.source}"
+          user="${wls.username}"
+          nostage="true"
+          password="${wls.password}"
+          verbose="true"
+          adminurl="t3://${wls.hostname}:${wls.port}" targets="${deploy.target}" />
+</target>
+ 
+<!-- Redeploying Applications  -->
+<target name="redeploy" >
+<wldeploy action="redeploy"
+          name="${deploy.name}"
+          user="${wls.username}"
+          password="${wls.password}"
+          verbose="true"
+          adminurl="t3://${wls.hostname}:${wls.port}" targets="${deploy.target}" />
+</target>
+ 
+<!-- Uneploying Applications  -->
+<target name="undeploy">
+<wldeploy action="undeploy"
+          name="${deploy.name}"
+          failonerror="false"
+          user="${wls.username}"
+          password="${wls.password}"
+          verbose="true"
+          adminurl="t3://${wls.hostname}:${wls.port}" targets="${deploy.target}" />
+</target>
+     
+</project>

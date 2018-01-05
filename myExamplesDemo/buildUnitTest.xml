@@ -1,0 +1,220 @@
+<project default="all">
+  <!-- set global properties for this build -->
+  <property name="wls.username" value="weblogic" />
+  <property name="wls.password" value="weblogic" />
+  <property name="wls.hostname" value="172.16.191.247" />
+  <property name="wls.port" value="7001" />
+  <property name="wls.server.name" value="Server_Retail" />
+  <property name="ear.deployed.name" value="PortalAdapterWSEAR" />
+  <property name="example-output" value="output" />
+  <property name="ear-dir" value="ear" />
+  <property name="test.dir" value="test/src" />
+  <property name="report.dir" value="test_reports" />
+  <property name="base.dir.weblogic" value="C:/Oracle/Middleware_old/modules" />
+  
+  <property name="ant.build.javac.source" value="1.5"/>
+  <property name="ant.build.javac.target" value="1.5"/>
+  <!-- set build path for this build -->
+	 <path id="build.classpath">
+	  <fileset dir="lib">
+		<include name="**/*.jar"/>
+		<include name="**/*.zip"/>
+	  </fileset>
+	</path>
+  <!-- set build path for creation of jar through wsdl file -->
+	 <path id="client.classpath">
+	  <fileset dir="lib_test_webservice">
+		<include name="**/*.jar"/>
+		<include name="**/*.zip"/>
+	  </fileset>
+	</path>
+  <!-- set build path for unit testing -->
+	 <path id="compile.classpath">
+	  <fileset dir="${base.dir.weblogic}/junit_1.0.0.0_4-5">
+		<include name="junit.jar"/>
+		  </fileset>
+		 <fileset dir="lib">
+		<include name="hamcrest-core.jar"/>
+		 </fileset>
+	</path>
+
+ <!-- Defining tasks -->
+  <taskdef name="wsdlc"
+    classname="weblogic.wsee.tools.anttasks.WsdlcTask">
+	<classpath  refid="build.classpath"/>
+	</taskdef>
+  <taskdef name="jwsc"
+    classname="weblogic.wsee.tools.anttasks.JwscTask" />
+  <taskdef name="clientgen"
+    classname="weblogic.wsee.tools.anttasks.ClientGenTask" />
+  <taskdef name="wldeploy"
+    classname="weblogic.ant.taskdefs.management.WLDeploy"/>
+  <taskdef name="myjunit"
+  classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+  
+	
+ <!--<target name="all" 
+    depends="test" /> --> 
+
+  <target name="all" 
+    depends="clean,generate-from-wsdl,build-service,deploy,test" />
+	
+  <target name="clean" depends="undeploy">
+	 <delete>
+	 <dirset dir="${ear-dir}"/>
+	 <dirset dir="${example-output}/META-INF"/>
+	    <fileset dir="${example-output}" includes="PortalAdapterWS.war" />
+	 </delete>
+  </target>
+  
+  <!-- Creating POSTE_E2E_OracleCBRM_wsdl.jar from the wsdl file needed to be one of dependencies for creating the jar -->
+  <target name="generate-from-wsdl">
+	   <wsdlc
+			srcWsdl="compatibility/POSTE_E2E_OracleCBRM.wsdl"
+			destJwsDir="jar"
+			destImplDir="jar"
+			classpathref="build.classpath"
+			type="JAXRPC"
+			packageName="webservice" 
+			explode="true"
+			>
+		<classpath  refid="build.classpath"/>
+	   </wsdlc> 
+	   <javac destdir="jar" classpath="build.classpath" debug="on" srcdir="jar/xml_soapadapter"  includeDestClasses="true" source="1.5"/>
+       <javac destdir="jar" classpath="build.classpath" debug="on" srcdir="jar/webservice"  includeDestClasses="true" source="1.5"/>
+		
+		<delete>
+			<fileset dir="jar" includes="POSTE_E2E_OracleCBRM.wsdl" />
+		</delete>	
+		
+   	 <jar destfile="lib/POSTE_E2E_OracleCBRM_wsdl.jar"
+      basedir="jar">
+      <manifest/>
+     </jar>
+  </target>
+  
+  <target name="build-service">
+  
+    <jwsc
+      srcdir="src"
+      destdir="output"  verbose="on"
+      debug="on"
+      keepGenerated="yes" classpathref="build.classpath">
+	  <module  id="WebModule_1504191247110" contextPath="PortalAdapterWS" name="PortalAdapterWS" explode="true" >
+      <jws file="webservice/ACSOracleCBRMServiceImpl.java"/>
+            <zipfileset dir="." prefix="WEB-INF">
+                <include name="lib/POSTE_E2E_OracleCBRM_wsdl.jar"/>
+            </zipfileset>
+			 <zipfileset dir="." prefix="WEB-INF">
+                <include name="weblogic.xml"/>
+            </zipfileset>
+	
+	   </module>  
+    </jwsc>
+	
+	<copy file="compatibility/weblogic.xml" tofile="${example-output}/PortalAdapterWS/WEB-INF/weblogic.xml" overwrite="true" />
+	<copy file="compatibility/webservices.xml" tofile="${example-output}/PortalAdapterWS/WEB-INF/webservices.xml" overwrite="true" />
+	<copy file="compatibility/weblogic-webservices.xml" tofile="${example-output}/PortalAdapterWS/WEB-INF/weblogic-webservices.xml" overwrite="true" />
+	<copy file="compatibility/weblogic-webservices-policy.xml" tofile="${example-output}/PortalAdapterWS/WEB-INF/weblogic-webservices-policy.xml" overwrite="true" />
+	<copy file="compatibility/ACSOracleCBRMDef-annotation.xml" tofile="${example-output}/PortalAdapterWS/WEB-INF/ACSOracleCBRMDef-annotation.xml" overwrite="true" />
+	<copy file="compatibility/ACSOracleCBRMDef.xml" tofile="${example-output}/PortalAdapterWS/WEB-INF/ACSOracleCBRMDef.xml" overwrite="true" />
+	<copy file="compatibility/ACSOracleCBRMDef.wsdl" tofile="${example-output}/PortalAdapterWS/WEB-INF/ACSOracleCBRMDef.wsdl" overwrite="true" />
+	
+	<war destfile="${example-output}/PortalAdapterWS.war" webxml="compatibility/web.xml">
+      <fileset dir="${example-output}/PortalAdapterWS" />
+    </war>
+	
+	<delete dir="${example-output}/PortalAdapterWS"/>
+	
+	<delete>
+	   <fileset dir="${example-output}/META-INF/"/>
+	</delete>
+	
+	<copy todir="${example-output}/META-INF">
+	     <fileset dir="compatibility/META-INF"/>
+    </copy>
+
+    <ear destfile="${ear-dir}/PortalAdapterWSEAR.ear" appxml="compatibility/application.xml">
+      <fileset dir="output" />
+    </ear>
+	
+  </target>
+  
+  <target name="deploy">
+    <wldeploy action="deploy" name="PortalAdapterWSEAR"
+      source="${ear-dir}/PortalAdapterWSEAR.ear" user="${wls.username}"
+	  remote="true"
+	  failonerror="true"
+	  upload="true"
+	  debug="true"
+      password="${wls.password}" verbose="true"
+      adminurl="t3://${wls.hostname}:${wls.port}"
+      targets="${wls.server.name}"
+  />
+  </target>
+  
+  <target name="undeploy">
+  <!-- copy the deployed ear to backup folder in case of junit getting failed to again deploy the backup ear -->
+  <copy todir="backup" overwrite="true">
+  <fileset dir="${ear-dir}"/>
+  </copy>
+  
+    <wldeploy action="undeploy" name="PortalAdapterWSEAR"
+      failonerror="false"
+      user="${wls.username}" password="${wls.password}" verbose="true"
+      adminurl="t3://${wls.hostname}:${wls.port}"
+      targets="${wls.server.name}" />
+  </target>
+  
+  
+  <!-- Compile Java Test classes  -->
+	<target name="compileUnitTestClasses" description="compile source code" >
+		<javac destdir="test/classes" source="1.5"
+			target="1.5" debug="true"
+                        includeantruntime="false"  classpathref="compile.classpath">
+			<src path="test/src" />
+		</javac>
+	</target>
+  
+  <target name="test" depends="junit,failedAgainDeploy"/>
+     <!-- Run jUnit -->
+	<target name="junit" depends="compileUnitTestClasses">
+	  <myjunit printsummary="yes"  failureproperty="test.failed">
+	  <classpath  refid="client.classpath"/>
+	    <classpath location="${base.dir.weblogic}/junit_1.0.0.0_4-5/junit.jar"/>
+	    <classpath location="lib/hamcrest-core.jar" />
+		<classpath location="test/classes" />
+
+		<formatter type="xml" />
+		<batchtest fork="yes" todir="${report.dir}">
+			<fileset dir="${test.dir}">
+				<include name="**/*.java" />
+				<exclude name="**/webManager.java" />
+				<exclude name="**/FileManager.java" />
+			</fileset>
+		</batchtest>
+
+	  </myjunit>
+	 
+	</target>
+	
+	<target name="failedAgainDeploy" if="test.failed">
+     <wldeploy action="undeploy" name="PortalAdapterWSEAR"
+      failonerror="false"
+      user="${wls.username}" password="${wls.password}" verbose="true"
+      adminurl="t3://${wls.hostname}:${wls.port}"
+      targets="${wls.server.name}" />
+	  
+	 <wldeploy action="deploy" name="PortalAdapterWSEAR"
+      source="backup/PortalAdapterWSEAR.ear" user="${wls.username}"
+	  remote="true"
+	  failonerror="true"
+	  upload="true"
+	  debug="true"
+      password="${wls.password}" verbose="true"
+      adminurl="t3://${wls.hostname}:${wls.port}"
+      targets="${wls.server.name}"
+     />
+    </target>
+
+</project>
