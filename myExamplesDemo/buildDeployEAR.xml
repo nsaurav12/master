@@ -7,9 +7,8 @@
 <property name="wls.port" value="7001" />
 <property name="admin.server.name" value="AdminServer" />
 <property name="deploy.target" value="AdminServer" />
-<property name="deploy.name" value="tryEar" />
-<property name="deploy.source" value="tryEar.ear" />
- 
+<property name="deploy.name" value="test" />
+<property name="deploy.source" value="test.ear" />
  
  <taskdef name="wldeploy" classname="weblogic.ant.taskdefs.management.WLDeploy">
 <classpath>
