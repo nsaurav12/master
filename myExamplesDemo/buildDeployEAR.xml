@@ -19,7 +19,7 @@
 	
 	
 	<target name="all" 
-    depends="deploy" />
+    depends="undeploy,deploy" />
 	
 <target name="deploy"  >
 <wldeploy action="deploy"
