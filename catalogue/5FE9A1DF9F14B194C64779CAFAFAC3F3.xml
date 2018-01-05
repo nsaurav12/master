@@ -5,7 +5,7 @@
 <description>Test DevOps, Deal [Prepaid]</description>
 <permitted>/service/telco/SIM</permitted>
 <deal_product status="active">
-<product_name>Test DevOps WAP OFF In Bulk, Product [Prepaid]</product_name>
+<product_name>Test DevOps WAP  OFF In Bulk, Product [Prepaid]</product_name>
 <quantity>1.0</quantity>
 <purchase_discount>0.0</purchase_discount>
 <cycle_discount>0.0</cycle_discount>
