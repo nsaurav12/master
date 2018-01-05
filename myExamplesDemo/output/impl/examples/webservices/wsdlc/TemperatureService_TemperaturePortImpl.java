@@ -1,9 +1,7 @@
+
 package examples.webservices.wsdlc;
 
 import javax.jws.WebService;
-
-
-
 import javax.xml.ws.BindingType;
 
 
@@ -20,7 +18,7 @@ import javax.xml.ws.BindingType;
 @WebService(portName = "TemperaturePort", serviceName = "TemperatureService", targetNamespace = "http://www.xmethods.net/sd/TemperatureService.wsdl", wsdlLocation = "/wsdls/TemperatureService.wsdl", endpointInterface = "examples.webservices.wsdlc.TemperaturePortType")
 @BindingType("http://schemas.xmlsoap.org/wsdl/soap/http")
 public class TemperatureService_TemperaturePortImpl
-    implements TemperaturePortType 
+    implements TemperaturePortType
 {
 
 
@@ -33,7 +31,7 @@ public class TemperatureService_TemperaturePortImpl
      * @return
      *     returns examples.webservices.wsdlc.GetTempResponse
      */
-    public GetTempResponse getTemp(GetTempRequest parameters) { 
+    public GetTempResponse getTemp(GetTempRequest parameters) {
         //replace with your impl here
         return null;
     }
