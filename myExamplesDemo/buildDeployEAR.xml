@@ -2,9 +2,9 @@
 <project basedir="." default="all">
 
 <property name="wls.username" value="weblogic" />
-<property name="wls.password" value="weblogic123" />
+<property name="wls.password" value="weblogic@1234" />
 <property name="wls.hostname" value="localhost" />
-<property name="wls.port" value="7001" />
+<property name="wls.port" value="8632" />
 <property name="admin.server.name" value="AdminServer" />
 <property name="deploy.target" value="AdminServer" />
 <property name="deploy.name" value="test" />

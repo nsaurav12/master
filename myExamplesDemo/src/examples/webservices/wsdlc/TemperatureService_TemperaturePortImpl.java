@@ -3,7 +3,7 @@ package examples.webservices.wsdlc;
 
 import javax.jws.WebService;
 
-
+wer
 
 import javax.xml.ws.BindingType;
 
