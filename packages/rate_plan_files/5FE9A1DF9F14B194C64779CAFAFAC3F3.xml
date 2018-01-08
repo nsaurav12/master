@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <price_list version="7.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="price_list.xsd">
 <deal customization_flag="optional" ondemand_billing="no">
-<deal_name>Test DevOps, Deal  [Prepaid]</deal_name>
+<deal_name>Test DevOps, Deal [Prepaid]</deal_name>
 <description>Test DevOps, Deal [Prepaid]</description>
 <permitted>/service/telco/SIM</permitted>
 <deal_product status="active">
-<product_name>Test DevOps WAP  OFF In Bulk, Product [Prepaid]</product_name>
+<product_name>Test DevOps WAP OFF In Bulk, Product [Prepaid]</product_name>
 <quantity>1.0</quantity>
 <purchase_discount>0.0</purchase_discount>
 <cycle_discount>0.0</cycle_discount>
