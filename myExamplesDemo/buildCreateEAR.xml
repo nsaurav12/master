@@ -48,9 +48,9 @@
   
   
   <target name="ear" depends="generate-from-wsdl">
-	 	<ear destfile="tryEar.ear" 
-  appxml="META-INF/application.xml">
-  <fileset dir="." includes="output"/>
+	 	<ear destfile="test.ear" 
+  appxml="output/wsdlcEar/META-INF/application.xml">
+  <fileset dir="output/wsdlcEar"/>
 </ear>
 	    </target>
   
