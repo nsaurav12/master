@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 <price_list version="7.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="price_list.xsd">
 <deal customization_flag="optional" ondemand_billing="no">
 <deal_name>Test DevOps, Deal [Prepaid]</deal_name>
